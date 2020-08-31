@@ -1,0 +1,73 @@
+
+1. 说明
+
+(1)Realm认证和Realm授权
+CustomRealm.java
+(2)Session会话管理
+CustomShiroSessionManager.java,ShiroSessionListener.java,RedisSessionDao.java
+(3)Cache缓存管理
+RedisCache.java,RedisCacheManager.java,RedisUtil.java
+(4)Filter过滤器管理
+CustomAuthorizationFilter.java,CustomAuthenticationFilter.java,ShiroConfiguration.java
+
+
+2. 本项目是springboot和redis和MySQL和shiro和mybatis组成的，只是实现了
+登录用户名密码的认证和用户角色权限，把session放到了request中，
+把session存放到了redis中，业务完成后没有测试。
+
+https://www.imooc.com/video/18345
+
+
+
+
+
+
+6.新增用户密码，密码加盐,密码保存数据库为密文
+
+                                 String salt = "rsa_shiro";
+		// 生成随机数，并转为Byte数组
+		 long random = System.currentTimeMillis();
+		 ByteArrayOutputStream bao = new ByteArrayOutputStream();
+	     DataOutputStream dos =new DataOutputStream(bao);
+	     dos.writeLong(random);
+	     byte [] byteSalt =bao.toByteArray();
+	    // 新盐值
+	     String newSalt2 = salt + byteSalt;
+		String newSalt = salt + random;
+		String password = "123";
+		// 将密码转ByteSource对象
+		ByteSource source = ByteSource.Util.bytes(password.getBytes());
+		/*
+		 * 密码盐值统一加密
+		 * (1成功) SimpleHash simpleHash = new SimpleHash("MD5", source,byteSalt);
+		 * (2成功) SimpleHash simpleHash = new SimpleHash("MD5", source,newSalt2);
+		 * (3失败) SimpleHash simpleHash = new SimpleHash("MD5", source,random);
+		 * (4成功采纳) SimpleHash simpleHash = new SimpleHash("MD5", source,newSalt);
+		 */
+		SimpleHash simpleHash = new SimpleHash("MD5", source,newSalt);
+		// 打印密码盐值
+		System.out.println("加密后的密码：" + simpleHash.toHex());
+		System.out.println("盐 值 输入为： " + String.valueOf(simpleHash));
+		System.out.println("newSalt:" + newSalt);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
