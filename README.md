@@ -1,0 +1,2 @@
+# springbootredisshiro
+本项目是springboot和redis和MySQL和shiro和mybatis组成的，只是实现了 登录用户名密码的认证和用户角色权限，把session放到了request中， 把session存放到了redis中，业务完成后没有测试。
